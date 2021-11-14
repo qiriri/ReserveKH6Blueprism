@@ -1,0 +1,650 @@
+﻿<process name="Rename File" version="1.0" bpversion="7.0.0.40580" narrative="" byrefcollection="true" type="object" runmode="Exclusive" preferredid="8afbba3a-90b6-4bc5-8689-bcc8a230ded6">
+  <appdef>
+    <element name="Application Root">
+      <id>5230e483-dce5-4c71-816d-84742ad74337</id>
+      <type>Application</type>
+      <basetype>Application</basetype>
+      <datatype>unknown</datatype>
+      <diagnose>False</diagnose>
+    </element>
+  </appdef>
+  <view>
+    <camerax>0</camerax>
+    <cameray>0</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <subsheet subsheetid="5010d89f-56a1-4592-af9f-85ac00bcd776" type="CleanUp" published="True">
+    <name>Clean Up</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="4f63b819-806b-4a8f-af6d-1606b9d2fe4e" type="Normal" published="True">
+    <name>Rename</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>9</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="c2f1d134-1b2d-47bf-9e55-a53c9491b5e2" type="Normal" published="False">
+    <name>File Exists</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="f36cd597-e748-4cf9-9456-8f6db5af6c4b" type="Normal" published="False">
+    <name>Move File</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="3e102f78-45a5-4277-bd9b-f931b0ea9c89" type="Normal" published="False">
+    <name>Raise Exception If Appropriate</name>
+    <view>
+      <camerax>0</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <subsheet subsheetid="c799b3af-e566-4f91-9664-f62e1f6e078d" type="Normal" published="True">
+    <name>Delete Files</name>
+    <view>
+      <camerax>106</camerax>
+      <cameray>0</cameray>
+      <zoom version="2">1.25</zoom>
+    </view>
+  </subsheet>
+  <stage stageid="d54f1363-a360-4f6d-bfbd-e43df574f303" name="Start" type="Start">
+    <loginhibit />
+    <display x="15" y="-105" />
+    <onsuccess>3031922a-ca67-4afb-a5a3-eaf8178b05dc</onsuccess>
+  </stage>
+  <stage stageid="3031922a-ca67-4afb-a5a3-eaf8178b05dc" name="End" type="End">
+    <loginhibit />
+    <display x="15" y="90" />
+  </stage>
+  <stage stageid="3c4a3814-3fb4-4d9b-9d50-b555f487a5d6" name="Stage1" type="ProcessInfo">
+    <display x="-195" y="-105" w="150" h="90" />
+    <references>
+      <reference>System.dll</reference>
+      <reference>System.Data.dll</reference>
+      <reference>System.Xml.dll</reference>
+      <reference>System.Drawing.dll</reference>
+    </references>
+    <imports>
+      <import>System</import>
+      <import>System.Drawing</import>
+      <import>System.Data</import>
+      <import>System.IO</import>
+      <import>System.XML</import>
+      <import>System.Diagnostics</import>
+      <import>Microsoft.VisualBasic</import>
+      <import>System.Data</import>
+      <import>system.text.regularexpressions</import>
+      <import>System.Data.OleDB</import>
+    </imports>
+    <language>visualbasic</language>
+    <globalcode><![CDATA[]]></globalcode>
+    <code><![CDATA[Public Function GetDataTable(ByVal ColumnNamesCSV As String, ByVal ColumnTypesCSV As String) As DataTable
+
+	Dim objTable As DataTable
+	Dim objColumn As DataColumn
+	Dim aColumnNames As String() = ColumnNamesCSV.Split(",")
+	Dim aColumnTypes As String() = ColumnTypesCSV.Split(",")
+
+	Try
+		objTable = New DataTable
+		For i As Integer = 0 To aColumnNames.Length - 1
+			objColumn = New DataColumn 
+			objColumn.DataType = System.Type.GetType(aColumnTypes(i).Trim)
+			If objColumn.DataType = GetType(DateTime) Then
+				objColumn.DateTimeMode = DataSetDateTime.Utc
+			End If
+			objColumn.ColumnName = aColumnNames(i).Trim
+			objTable.Columns.Add(objColumn)
+		Next
+		
+	Catch e As Exception
+		objTable = nothing	
+	End Try
+
+	Return objTable
+
+End Function
+
+]]></code>
+  </stage>
+  <stage stageid="8261965d-cb8f-4a4c-90ba-f24e5da093a6" name="Clean Up" type="SubSheetInfo">
+    <subsheetid>5010d89f-56a1-4592-af9f-85ac00bcd776</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="cfc0d600-3433-4445-8791-5a7f0c5b5c1e" name="Start" type="Start">
+    <subsheetid>5010d89f-56a1-4592-af9f-85ac00bcd776</subsheetid>
+    <loginhibit />
+    <display x="15" y="-105" />
+    <onsuccess>9da2bbba-b34c-4474-a2d8-5d346c33b136</onsuccess>
+  </stage>
+  <stage stageid="9da2bbba-b34c-4474-a2d8-5d346c33b136" name="End" type="End">
+    <subsheetid>5010d89f-56a1-4592-af9f-85ac00bcd776</subsheetid>
+    <loginhibit />
+    <display x="15" y="90" />
+  </stage>
+  <stage stageid="5763e4e6-f67a-4c8e-9918-dcbea04bbfe9" name="Note1" type="Note">
+    <subsheetid>5010d89f-56a1-4592-af9f-85ac00bcd776</subsheetid>
+    <narrative>Clean Up Page
+
+This is an optional page where you might choose to perform some finalisation (or "cleanup") tasks as your business object is closed down.
+
+The cleanup action will be called automatically immediately after closing your business object at the end of a business process.
+
+You will not be able to call this action from a business process, nor will it be called at any other time than before the disposal of the business object.</narrative>
+    <display x="-180" y="60" w="180" h="230" />
+  </stage>
+  <stage stageid="fca0e50e-1d50-40cb-a02f-face9ca0c5c8" name="Note2" type="Note">
+    <narrative>Initialise Page
+
+This is an optional page where you might choose to perform some initialisation tasks after your business object is loaded.
+
+The initialise action will be called automatically immediately after loading your business object.
+
+You will not be able to call this action from a business process, nor will it be called at any other time than after the creation of the object.</narrative>
+    <display x="-180" y="60" w="180" h="230" />
+  </stage>
+  <stage stageid="d7c912e7-fdec-43f5-b10c-910a09ceaed6" name="Rename" type="SubSheetInfo">
+    <subsheetid>4f63b819-806b-4a8f-af6d-1606b9d2fe4e</subsheetid>
+    <display x="-375" y="-135" w="150" h="90" />
+  </stage>
+  <stage stageid="d7d3de4f-c475-4888-ae7c-f69efd7fb565" name="File Name" type="Collection">
+    <subsheetid>4f63b819-806b-4a8f-af6d-1606b9d2fe4e</subsheetid>
+    <loginhibit />
+    <display x="45" y="-45" w="120" h="60" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="Old File" type="text" />
+      <field name="New File" type="text" />
+    </collectioninfo>
+    <initialvalue>
+      <row>
+        <field name="Old File" type="text" value="C:\Users\EL BAQI\Downloads\FRB_H6.csv" />
+        <field name="New File" type="text" value="C:\Users\EL BAQI\Downloads\FRB_H61.csv" />
+      </row>
+      <row>
+        <field name="Old File" type="text" value="C:\Users\EL BAQI\Downloads\FRB_H6 (1).csv" />
+        <field name="New File" type="text" value="C:\Users\EL BAQI\Downloads\FRB_H62.csv" />
+      </row>
+      <row>
+        <field name="Old File" type="text" value="C:\Users\EL BAQI\Downloads\FRB_H6 (2).csv" />
+        <field name="New File" type="text" value="C:\Users\EL BAQI\Downloads\FRB_H63.csv" />
+      </row>
+      <row>
+        <field name="Old File" type="text" value="C:\Users\EL BAQI\Downloads\FRB_H6 (3).csv" />
+        <field name="New File" type="text" value="C:\Users\EL BAQI\Downloads\FRB_H64.csv" />
+      </row>
+      <row>
+        <field name="Old File" type="text" value="C:\Users\EL BAQI\Downloads\FRB_H6 (4).csv" />
+        <field name="New File" type="text" value="C:\Users\EL BAQI\Downloads\FRB_H65.csv" />
+      </row>
+      <row>
+        <field name="Old File" type="text" value="C:\Users\EL BAQI\Downloads\FRB_H6 (5).csv" />
+        <field name="New File" type="text" value="C:\Users\EL BAQI\Downloads\FRB_H66.csv" />
+      </row>
+    </initialvalue>
+  </stage>
+  <stage stageid="157bfafe-8c94-4ae3-82f9-01bca2cc0013" name="End" type="End">
+    <subsheetid>4f63b819-806b-4a8f-af6d-1606b9d2fe4e</subsheetid>
+    <loginhibit />
+    <display x="-150" y="195" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="edffc229-5818-491e-81c5-c8effd067101" name="Start" type="Start">
+    <subsheetid>4f63b819-806b-4a8f-af6d-1606b9d2fe4e</subsheetid>
+    <loginhibit />
+    <preconditions>
+      <condition narrative="None." />
+    </preconditions>
+    <postconditions>
+      <condition narrative="The existence of the file of interest will have been determined." />
+    </postconditions>
+    <display x="-150" y="-165" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="File Name" narrative="The name of the file to check" stage="File Name" />
+    </inputs>
+    <onsuccess>2215752a-f46e-4e09-9457-43594aa3696a</onsuccess>
+  </stage>
+  <stage stageid="7d6cf310-25ab-4660-8f6a-e30898a9e4e8" name="File Exists" type="SubSheetInfo">
+    <subsheetid>c2f1d134-1b2d-47bf-9e55-a53c9491b5e2</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="dd5846ff-a32b-40e6-8bb4-f3d6488e1a27" name="End" type="End">
+    <subsheetid>c2f1d134-1b2d-47bf-9e55-a53c9491b5e2</subsheetid>
+    <loginhibit />
+    <display x="15" y="120" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <outputs>
+      <output type="flag" name="Exists" narrative="True if the file exists" stage="Exists" />
+    </outputs>
+  </stage>
+  <stage stageid="6fd23fef-6c0c-4b67-a4ad-77533805d7e3" name="Start" type="Start">
+    <subsheetid>c2f1d134-1b2d-47bf-9e55-a53c9491b5e2</subsheetid>
+    <loginhibit />
+    <preconditions>
+      <condition narrative="None." />
+    </preconditions>
+    <postconditions>
+      <condition narrative="The existence of the file of interest will have been determined." />
+    </postconditions>
+    <display x="15" y="-60" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="File Name" narrative="The name of the file to check" stage="File Name" />
+    </inputs>
+    <onsuccess>0441aad7-2367-40b1-8bd1-907ae3ad8d7a</onsuccess>
+  </stage>
+  <stage stageid="0441aad7-2367-40b1-8bd1-907ae3ad8d7a" name="Code1" type="Code">
+    <subsheetid>c2f1d134-1b2d-47bf-9e55-a53c9491b5e2</subsheetid>
+    <loginhibit />
+    <display x="15" y="-15" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="File Name" expr="[File Name]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Exists" stage="Exists" />
+    </outputs>
+    <onsuccess>4d79c816-9ba8-41ae-b8ca-c6bfcaf5446a</onsuccess>
+    <code><![CDATA[Try
+	Exists = File.Exists(File_Name)
+Catch
+	Exists = False
+End Try]]></code>
+  </stage>
+  <stage stageid="eb56c84f-8324-4c13-84ee-3a005ec20449" name="File Name" type="Data">
+    <subsheetid>c2f1d134-1b2d-47bf-9e55-a53c9491b5e2</subsheetid>
+    <display x="-165" y="-15" w="150" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">C:\Users\EL BAQI\Downloads\FRB_H61.csv</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="402df658-9214-4f5c-a3bc-bb992653a908" name="Exists" type="Data">
+    <subsheetid>c2f1d134-1b2d-47bf-9e55-a53c9491b5e2</subsheetid>
+    <display x="-165" y="15" w="150" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d42139f5-829a-4d76-95e6-e96da00a927e" name="Check File" type="SubSheet">
+    <subsheetid>4f63b819-806b-4a8f-af6d-1606b9d2fe4e</subsheetid>
+    <loginhibit />
+    <display x="-150" y="-15" />
+    <inputs>
+      <input type="text" name="File Name" friendlyname="File Name" narrative="The name of the file to check" expr="[File Name.Old File]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Exists" friendlyname="Exists" narrative="True if the file exists" stage="" />
+    </outputs>
+    <onsuccess>b08e1d3d-b5a6-448d-81b0-8b308782c548</onsuccess>
+    <processid>c2f1d134-1b2d-47bf-9e55-a53c9491b5e2</processid>
+  </stage>
+  <stage stageid="670eccb0-7172-444d-96a8-775befcc0200" name="Move File" type="SubSheetInfo">
+    <subsheetid>f36cd597-e748-4cf9-9456-8f6db5af6c4b</subsheetid>
+    <narrative>Moves the specified file to a new location.</narrative>
+    <display x="-195" y="-105" w="150" h="90" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="d6b7658c-1d6b-4a1b-a908-b43e12586f37" name="Start" type="Start">
+    <subsheetid>f36cd597-e748-4cf9-9456-8f6db5af6c4b</subsheetid>
+    <loginhibit />
+    <preconditions>
+      <condition narrative="The file to be moved must exist. There must be sufficient disk space to move the file." />
+    </preconditions>
+    <display x="15" y="-105" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="File Path" narrative="The full path to the file to move" stage="File Path" />
+      <input type="text" name="Destination Path" narrative="The path to the folder to move the file to" stage="Destination Path" />
+    </inputs>
+    <onsuccess>fd84f86c-098c-494c-a037-adffd7525124</onsuccess>
+  </stage>
+  <stage stageid="66c38008-d7c8-47fb-a5d5-e80a77d7a5d9" name="End" type="End">
+    <subsheetid>f36cd597-e748-4cf9-9456-8f6db5af6c4b</subsheetid>
+    <loginhibit />
+    <display x="15" y="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <outputs>
+      <output type="flag" name="Success" narrative="True if successful" stage="Success" />
+      <output type="text" name="Message" narrative="An error message if unsuccessful" stage="Message" />
+    </outputs>
+  </stage>
+  <stage stageid="8cc85a7e-d06b-4e4c-b766-24f85d2f53a5" name="Success" type="Data">
+    <subsheetid>f36cd597-e748-4cf9-9456-8f6db5af6c4b</subsheetid>
+    <loginhibit />
+    <display x="-195" y="45" w="90" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="f8c68cda-f625-4ea9-95f1-a6e5face9e4f" name="Message" type="Data">
+    <subsheetid>f36cd597-e748-4cf9-9456-8f6db5af6c4b</subsheetid>
+    <loginhibit />
+    <display x="-195" y="75" w="90" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="fd84f86c-098c-494c-a037-adffd7525124" name="Move" type="Code">
+    <subsheetid>f36cd597-e748-4cf9-9456-8f6db5af6c4b</subsheetid>
+    <loginhibit />
+    <display x="15" y="-60" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="File Path" expr="[File Path]" />
+      <input type="text" name="Destination" expr="[Destination Path]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" stage="Success" />
+      <output type="text" name="Message" stage="Message" />
+    </outputs>
+    <onsuccess>0dd5eadb-f5c1-4ee5-b4d5-6f14032021fd</onsuccess>
+    <code><![CDATA[Try
+
+	Dim sSourceFolder As String = Mid(File_Path, 1, File_Path.LastIndexOf("\") + 1)
+	Dim sSourceFileName As String = Mid(File_Path, File_Path.LastIndexOf("\") + 2)
+ 
+	Dim sDestinationFolder As String
+	Dim sDestinationFile As String
+	If Directory.Exists(Destination) Then
+		sDestinationFolder = Destination
+		If Not sDestinationFolder.EndsWith("\") Then
+			sDestinationFolder &= "\"
+		End If
+		sDestinationFile = ""
+	Else
+		sDestinationFolder = ""
+		sDestinationFile = Destination
+	End If
+ 
+	Dim objDirectoryInfo As DirectoryInfo = New DirectoryInfo(sSourceFolder)
+	Dim aFiles As FileInfo() = objDirectoryInfo.GetFiles(sSourceFileName)
+
+	For Each oFile As FileInfo In aFiles
+		If sDestinationFolder = "" Then
+			oFile.MoveTo(sDestinationFile)
+		Else
+			oFile.MoveTo(sDestinationFolder & oFile.Name)
+		End If
+	Next
+
+	Success = True
+	Message = ""
+Catch e As Exception
+	Success = False
+	Message = e.Message
+End Try]]></code>
+  </stage>
+  <stage stageid="7f0f9a6f-d238-40f3-bfd3-3dc4b83360fd" name="File Path" type="Data">
+    <subsheetid>f36cd597-e748-4cf9-9456-8f6db5af6c4b</subsheetid>
+    <display x="-195" y="-15" w="120" h="60" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="702eb34f-c57a-4c93-8845-2a7c611abcf6" name="Destination Path" type="Data">
+    <subsheetid>f36cd597-e748-4cf9-9456-8f6db5af6c4b</subsheetid>
+    <display x="225" y="45" w="150" h="60" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="0dd5eadb-f5c1-4ee5-b4d5-6f14032021fd" name="Raise Exception If Appropriate" type="SubSheet">
+    <subsheetid>f36cd597-e748-4cf9-9456-8f6db5af6c4b</subsheetid>
+    <loginhibit />
+    <display x="15" y="-15" w="90" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="flag" name="Success" friendlyname="Success" narrative="Flag indicating success or otherwise" expr="[Success]" />
+      <input type="text" name="Error Message" friendlyname="Error Message" narrative="The message detailing the lack of success, empty if the current state indicates success" expr="[Message]" />
+    </inputs>
+    <onsuccess>66c38008-d7c8-47fb-a5d5-e80a77d7a5d9</onsuccess>
+    <processid>3e102f78-45a5-4277-bd9b-f931b0ea9c89</processid>
+  </stage>
+  <stage stageid="b08e1d3d-b5a6-448d-81b0-8b308782c548" name="Rename File" type="SubSheet">
+    <subsheetid>4f63b819-806b-4a8f-af6d-1606b9d2fe4e</subsheetid>
+    <loginhibit />
+    <display x="-150" y="45" />
+    <inputs>
+      <input type="text" name="File Path" friendlyname="File Path" narrative="The full path to the file to move" expr="[File Name.Old File]" />
+      <input type="text" name="Destination Path" friendlyname="Destination Path" narrative="The path to the folder to move the file to" expr="[File Name.New File]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" friendlyname="Success" narrative="True if successful" stage="" />
+      <output type="text" name="Message" friendlyname="Message" narrative="An error message if unsuccessful" stage="" />
+    </outputs>
+    <onsuccess>8bdef491-3548-439d-8f2b-88bce5bae948</onsuccess>
+    <processid>f36cd597-e748-4cf9-9456-8f6db5af6c4b</processid>
+  </stage>
+  <stage stageid="5e005e3f-5e51-4307-bb1f-1568d055dd02" name="Raise Exception If Appropriate" type="SubSheetInfo">
+    <subsheetid>3e102f78-45a5-4277-bd9b-f931b0ea9c89</subsheetid>
+    <display x="-195" y="-105" w="150" h="90" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="bedcf325-7652-4a78-815d-d3b8b986d6be" name="Start" type="Start">
+    <subsheetid>3e102f78-45a5-4277-bd9b-f931b0ea9c89</subsheetid>
+    <loginhibit />
+    <display x="15" y="-105" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="flag" name="Success" narrative="Flag indicating success or otherwise" stage="Success" />
+      <input type="text" name="Error Message" narrative="The message detailing the lack of success, empty if the current state indicates success" stage="Error Message" />
+    </inputs>
+    <onsuccess>9c43c6b9-e6a0-42b2-baae-08abd96a17fb</onsuccess>
+  </stage>
+  <stage stageid="0aee4c9d-f8d9-4a9c-9617-b8027def1da0" name="End" type="End">
+    <subsheetid>3e102f78-45a5-4277-bd9b-f931b0ea9c89</subsheetid>
+    <loginhibit />
+    <display x="15" y="-15" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="55262270-ea94-4809-bea3-d32c11c1d62d" name="Success" type="Data">
+    <subsheetid>3e102f78-45a5-4277-bd9b-f931b0ea9c89</subsheetid>
+    <display x="-195" y="-30" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="678517d8-a357-48f1-ad11-b6a6c403c15e" name="Error Message" type="Data">
+    <subsheetid>3e102f78-45a5-4277-bd9b-f931b0ea9c89</subsheetid>
+    <display x="-195" y="0" w="120" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="9c43c6b9-e6a0-42b2-baae-08abd96a17fb" name="Should Raise Exception?" type="Decision">
+    <subsheetid>3e102f78-45a5-4277-bd9b-f931b0ea9c89</subsheetid>
+    <loginhibit />
+    <display x="15" y="-60" w="90" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <decision expression="[Success] = False AND [Raise exception on any failure]" />
+    <ontrue>21ce30c2-2e21-4f94-9121-234533f0ea3a</ontrue>
+    <onfalse>0aee4c9d-f8d9-4a9c-9617-b8027def1da0</onfalse>
+  </stage>
+  <stage stageid="21ce30c2-2e21-4f94-9121-234533f0ea3a" name="FAIL" type="Exception">
+    <subsheetid>3e102f78-45a5-4277-bd9b-f931b0ea9c89</subsheetid>
+    <display x="90" y="-60" w="30" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <exception type="Action Failed" detail="[Error Message]" />
+  </stage>
+  <stage stageid="7beac83f-6883-4797-a0de-819f622c0ccf" name="Raise exception on any failure" type="Data">
+    <subsheetid>4f63b819-806b-4a8f-af6d-1606b9d2fe4e</subsheetid>
+    <loginhibit />
+    <display x="45" y="45" w="150" h="30" />
+    <datatype>flag</datatype>
+    <initialvalue>False</initialvalue>
+    <alwaysinit />
+  </stage>
+  <stage stageid="7bbd6be4-7844-4364-b210-3a52efce6d32" name="Delete Files" type="SubSheetInfo">
+    <subsheetid>c799b3af-e566-4f91-9664-f62e1f6e078d</subsheetid>
+    <narrative>Deletes all files in the specified folder, matching the supplied file extension pattern.</narrative>
+    <display x="-195" y="-105" w="150" h="90" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="984cfd26-84ff-438f-ade4-5418b4d71536" name="End" type="End">
+    <subsheetid>c799b3af-e566-4f91-9664-f62e1f6e078d</subsheetid>
+    <loginhibit />
+    <display x="15" y="0" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="b3d5e8c3-ac72-439a-8e7f-0e230a6eef63" name="Start" type="Start">
+    <subsheetid>c799b3af-e566-4f91-9664-f62e1f6e078d</subsheetid>
+    <loginhibit />
+    <preconditions>
+      <condition narrative="The named folder must exist." />
+    </preconditions>
+    <postconditions>
+      <condition narrative="All files within the named folder which match the supplied pattern will have been deleted." />
+    </postconditions>
+    <display x="15" y="-135" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="Folder" narrative="The path from which to delete the files" stage="Folder" />
+      <input type="text" name="Pattern" narrative="The wildcard pattern of files to delete" stage="Pattern" />
+    </inputs>
+    <onsuccess>6f36fd37-2493-4f0c-a845-1f06fbef61d8</onsuccess>
+  </stage>
+  <stage stageid="6f36fd37-2493-4f0c-a845-1f06fbef61d8" name="Delete Files" type="Code">
+    <subsheetid>c799b3af-e566-4f91-9664-f62e1f6e078d</subsheetid>
+    <loginhibit />
+    <display x="15" y="-90" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="Folder" expr="[Folder]" />
+      <input type="text" name="Pattern" expr="[Pattern]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" stage="Success" />
+      <output type="text" name="Message" stage="Message" />
+    </outputs>
+    <onsuccess>acb01b14-dbfa-4e09-871d-e09fe70d199a</onsuccess>
+    <code><![CDATA[Dim aFiles As String()
+
+Try
+
+	aFiles = Directory.GetFiles(Folder, Pattern)
+
+	For each f as String in aFiles
+		File.Delete(f)
+	Next
+
+	Success = True
+	Message = ""
+Catch e As Exception
+	Success = False
+	Message = e.Message
+End Try
+]]></code>
+  </stage>
+  <stage stageid="afb38770-8a07-41c6-9e8b-9a505c4ab93d" name="Folder" type="Data">
+    <subsheetid>c799b3af-e566-4f91-9664-f62e1f6e078d</subsheetid>
+    <display x="-195" y="-15" w="150" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">C:\Users\EL BAQI\Downloads</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="5f385f4d-86bf-4ab1-963d-de701d70bcb6" name="Pattern" type="Data">
+    <subsheetid>c799b3af-e566-4f91-9664-f62e1f6e078d</subsheetid>
+    <display x="-195" y="15" w="150" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">FRB_H6*</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="cbcf8f72-e4de-4902-ba0d-ea655aa2694a" name="Success" type="Data">
+    <subsheetid>c799b3af-e566-4f91-9664-f62e1f6e078d</subsheetid>
+    <display x="-195" y="60" w="150" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="9ecf160c-17fe-486a-8452-a46aeccde1cc" name="Message" type="Data">
+    <subsheetid>c799b3af-e566-4f91-9664-f62e1f6e078d</subsheetid>
+    <display x="-195" y="90" w="150" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="acb01b14-dbfa-4e09-871d-e09fe70d199a" name="Raise Exception If Appropriate" type="SubSheet">
+    <subsheetid>c799b3af-e566-4f91-9664-f62e1f6e078d</subsheetid>
+    <loginhibit />
+    <display x="15" y="-45" w="90" h="30" />
+    <font family="Tahoma" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="flag" name="Success" friendlyname="Success" narrative="Flag indicating success or otherwise" expr="[Success]" />
+      <input type="text" name="Error Message" friendlyname="Error Message" narrative="The message detailing the lack of success, empty if the current state indicates success" expr="[Message]" />
+    </inputs>
+    <onsuccess>984cfd26-84ff-438f-ade4-5418b4d71536</onsuccess>
+    <processid>3e102f78-45a5-4277-bd9b-f931b0ea9c89</processid>
+  </stage>
+  <stage stageid="fcbc1642-0f81-4f94-b9d5-a561f0349aa6" name="System Exception" type="Exception">
+    <subsheetid>c2f1d134-1b2d-47bf-9e55-a53c9491b5e2</subsheetid>
+    <display x="135" y="45" />
+    <exception type="System Exception" detail="&quot;File (&quot; &amp; Right([File Name], 11) &amp; &quot;) does not exist&quot;" />
+  </stage>
+  <stage stageid="4d79c816-9ba8-41ae-b8ca-c6bfcaf5446a" name="Check File" type="Decision">
+    <subsheetid>c2f1d134-1b2d-47bf-9e55-a53c9491b5e2</subsheetid>
+    <loginhibit />
+    <display x="15" y="45" />
+    <decision expression="[Exists] = True" />
+    <ontrue>dd5846ff-a32b-40e6-8bb4-f3d6488e1a27</ontrue>
+    <onfalse>fcbc1642-0f81-4f94-b9d5-a561f0349aa6</onfalse>
+  </stage>
+  <stage stageid="2215752a-f46e-4e09-9457-43594aa3696a" name="C:\Users\EL BAQI\Downloads\FRB_H64.csv" type="LoopStart">
+    <subsheetid>4f63b819-806b-4a8f-af6d-1606b9d2fe4e</subsheetid>
+    <loginhibit />
+    <display x="-150" y="-90" w="90" h="60" />
+    <onsuccess>d42139f5-829a-4d76-95e6-e96da00a927e</onsuccess>
+    <groupid>9c7f9744-d7d7-4f96-9c87-52f8b711e5ca</groupid>
+    <looptype>ForEach</looptype>
+    <loopdata>File Name</loopdata>
+  </stage>
+  <stage stageid="8bdef491-3548-439d-8f2b-88bce5bae948" name="C:\Users\EL BAQI\Downloads\FRB_H64.csv" type="LoopEnd">
+    <subsheetid>4f63b819-806b-4a8f-af6d-1606b9d2fe4e</subsheetid>
+    <loginhibit />
+    <display x="-150" y="120" w="90" h="60" />
+    <onsuccess>157bfafe-8c94-4ae3-82f9-01bca2cc0013</onsuccess>
+    <groupid>9c7f9744-d7d7-4f96-9c87-52f8b711e5ca</groupid>
+  </stage>
+</process>

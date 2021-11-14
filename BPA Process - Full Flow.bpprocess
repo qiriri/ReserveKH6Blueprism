@@ -1,0 +1,94 @@
+﻿<process name="Full Flow" version="1.0" bpversion="7.0.0.40580" narrative="" byrefcollection="true" preferredid="541f2c7f-ef22-4638-ae1a-7642d6eb5129">
+  <view>
+    <camerax>0</camerax>
+    <cameray>0</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <stage stageid="022ede3d-1580-4ddd-9e21-3ecdb88757a1" name="Start" type="Start">
+    <display x="15" y="-165" />
+    <onsuccess>b0c373b3-96d4-41ff-9cfa-60acf4263979</onsuccess>
+  </stage>
+  <stage stageid="7aca3f64-84f0-4f95-8011-d9e0ae8e6295" name="End" type="End">
+    <display x="180" y="75" />
+  </stage>
+  <stage stageid="5f559b94-b3c9-4e69-b95b-de299970e556" name="Stage1" type="ProcessInfo">
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="b0c373b3-96d4-41ff-9cfa-60acf4263979" name="Delete" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-105" />
+    <inputs>
+      <input type="text" name="Folder" friendlyname="Folder" narrative="The path from which to delete the files" expr="" />
+      <input type="text" name="Pattern" friendlyname="Pattern" narrative="The wildcard pattern of files to delete" expr="" />
+    </inputs>
+    <onsuccess>b595d7d6-0f95-41de-b965-411c934d9ad1</onsuccess>
+    <resource object="Rename File" action="Delete Files" />
+  </stage>
+  <stage stageid="b595d7d6-0f95-41de-b965-411c934d9ad1" name="Web 1" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-45" />
+    <onsuccess>2c48eadc-378f-4804-bf4e-d66da50b9f48</onsuccess>
+    <resource object="Web 1" action="Main" />
+  </stage>
+  <stage stageid="2c48eadc-378f-4804-bf4e-d66da50b9f48" name="Web 2" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="15" />
+    <onsuccess>93e4fa35-a2a3-4341-bbd0-061331249650</onsuccess>
+    <resource object="Web 2" action="Main" />
+  </stage>
+  <stage stageid="93e4fa35-a2a3-4341-bbd0-061331249650" name="Web 3" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="75" />
+    <onsuccess>919fec23-e512-4158-9800-7cd1541afe2f</onsuccess>
+    <resource object="Web 3" action="Main" />
+  </stage>
+  <stage stageid="919fec23-e512-4158-9800-7cd1541afe2f" name="Web 4" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="135" />
+    <onsuccess>7aa0fe2d-4973-490c-9c02-c908e5b23ef5</onsuccess>
+    <resource object="Web 4" action="Main" />
+  </stage>
+  <stage stageid="7aa0fe2d-4973-490c-9c02-c908e5b23ef5" name="Anchor1" type="Anchor">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="180" w="10" h="10" />
+    <onsuccess>b0409d91-8fb4-40d6-8581-08c7864a731e</onsuccess>
+  </stage>
+  <stage stageid="b0409d91-8fb4-40d6-8581-08c7864a731e" name="Anchor2" type="Anchor">
+    <loginhibit onsuccess="true" />
+    <display x="90" y="180" w="10" h="10" />
+    <onsuccess>997b842f-591a-4657-81ea-f9a3c109bfd3</onsuccess>
+  </stage>
+  <stage stageid="997b842f-591a-4657-81ea-f9a3c109bfd3" name="Anchor3" type="Anchor">
+    <loginhibit onsuccess="true" />
+    <display x="90" y="-165" w="10" h="10" />
+    <onsuccess>d8ea6f0d-7363-40b1-adfa-36d5537b6069</onsuccess>
+  </stage>
+  <stage stageid="d8ea6f0d-7363-40b1-adfa-36d5537b6069" name="Anchor4" type="Anchor">
+    <loginhibit onsuccess="true" />
+    <display x="180" y="-165" w="10" h="10" />
+    <onsuccess>291367a3-4712-4ca5-9ccd-251e906c8ca2</onsuccess>
+  </stage>
+  <stage stageid="291367a3-4712-4ca5-9ccd-251e906c8ca2" name="Web 5" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="180" y="-105" />
+    <onsuccess>e670019e-15dd-4ec8-b89d-1d9044265d49</onsuccess>
+    <resource object="Web 5" action="Main" />
+  </stage>
+  <stage stageid="e670019e-15dd-4ec8-b89d-1d9044265d49" name="Web 6" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="180" y="-45" />
+    <onsuccess>1359202a-4768-4c50-a4a0-29455e1dd1a5</onsuccess>
+    <resource object="Web 6" action="Main" />
+  </stage>
+  <stage stageid="1359202a-4768-4c50-a4a0-29455e1dd1a5" name="Rename" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="180" y="15" />
+    <inputs>
+      <input type="text" name="File Name" friendlyname="File Name" narrative="The name of the file to check" expr="" />
+    </inputs>
+    <onsuccess>7aca3f64-84f0-4f95-8011-d9e0ae8e6295</onsuccess>
+    <resource object="Rename File" action="Rename" />
+  </stage>
+</process>
